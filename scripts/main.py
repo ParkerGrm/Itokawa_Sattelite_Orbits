@@ -2,6 +2,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyvista as pv
 
+class Asteroid:
+    def __init__(self, name, r_a, r_p, a, e, i, LAAN, om, T, v_avg, D, extent, mass, rho, T_rot):
+        self.name = name
+        self.r_a = r_a
+        self.r_p = r_p
+        self.a = a
+        self.e = e
+        self.i = i
+        self.LAAN = LAAN
+        self.om = om
+        self.T = T
+        self.v_avg = v_avg
+        self.D = D
+        self.extent = extent
+        self.mass = mass
+        self.rho = rho
+        self.T_rot = T_rot
+
 
 ### Itokawa asteroid data (25413) ###
 
@@ -51,5 +69,7 @@ T_rot = T_rot * 3600 # seconds
 # https://3d-asteroids.space/asteroids/25143-Itokawa #
 
 
-mesh = pv.read('itokawa_50k.ply')
+Itokawa = Asteroid('Itokawa', r_a, r_p, a, e, i, LAAN, om, T, v_avg, D, extent, mass, rho, T_rot)
+
+mesh = pv.read('data/itokawa_50k.ply')
 mesh.plot()
