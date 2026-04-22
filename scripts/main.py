@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pyvista as pv
+from polyhedral_gravity import Polyhedron, evaluate, PolyhedronIntegrity, NormalOrientation, MetricUnit
 
 class Asteroid:
     def __init__(self, name, r_a, r_p, a, e, i, LAAN, om, T, v_avg, D, extent, mass, rho, T_rot):
@@ -71,5 +72,28 @@ T_rot = T_rot * 3600 # seconds
 
 Itokawa = Asteroid('Itokawa', r_a, r_p, a, e, i, LAAN, om, T, v_avg, D, extent, mass, rho, T_rot)
 
-mesh = pv.read('data/itokawa_50k.ply')
-mesh.plot()
+#mesh = pv.read('data/itokawa_50k.ply')
+# mesh = pv.read('data/itokawa_50k.ply')
+# mesh.plot()
+
+# mesh2 = pv.read('data/itokawa_200k.ply')
+# mesh2.plot()
+
+
+# Defining every input parameter in the source code
+file = 'data/itokawa_50k_ascii.ply'        # str, path to file
+density = Itokawa.rho           # float
+computation_point = [0, 0, 0] # (3)-array-like
+
+# Evaluate gravity model with a polyhedron defined whose mesh is in kilometers
+polyhedron = Polyhedron(
+    polyhedral_source=[file],        # Mesh in km
+    density=density,                 # Density now in kg/km^3
+    metric_unit=MetricUnit.METER, # Alternative: METER (default) or UNITLESS
+    integrity_check=PolyhedronIntegrity.HEAL
+)
+
+
+potential, acceleration, tensor = evaluate(polyhedron, computation_point)
+
+print(f"Gravitational potential at {computation_point}: {potential} m^2/s^2")
