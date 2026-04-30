@@ -73,8 +73,8 @@ T_rot = T_rot * 3600 # seconds
 Itokawa = Asteroid('Itokawa', r_a, r_p, a, e, i, LAAN, om, T, v_avg, D, extent, mass, rho, T_rot)
 
 #mesh = pv.read('data/itokawa_50k.ply')
-# mesh = pv.read('data/itokawa_50k.ply')
-# mesh.plot()
+mesh = pv.read('data/itokawa_50k_ascii.ply')
+mesh.plot()
 
 # mesh2 = pv.read('data/itokawa_200k.ply')
 # mesh2.plot()
@@ -90,7 +90,7 @@ polyhedron = Polyhedron(
     polyhedral_source=[file],        # Mesh in km
     density=density,                 # Density now in kg/km^3
     metric_unit=MetricUnit.METER, # Alternative: METER (default) or UNITLESS
-    integrity_check=PolyhedronIntegrity.HEAL
+    integrity_check=PolyhedronIntegrity.HEAL # runtime O(n^2), check if this is hampering runtime during simulations
 )
 
 
